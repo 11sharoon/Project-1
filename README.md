@@ -3,28 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+      integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="style.css" />
-    <title>Dad Jokes</title>
+    <title>3D Boxes Background</title>
   </head>
   <body>
-    <div class="container">
-      <h3>Don't Laugh Challenge</h3>
-      <div id="joke" class="joke">// Joke goes here</div>
-      <button id="jokeBtn" class="btn">Get Another Joke</button>
-    </div>
+    <button id="btn" class="magic">Magic 🎩</button>
+    <div id="boxes" class="boxes big"></div>
     <script src="script.js"></script>
   </body>
 </html>
-const jokeEl = document.getElementById('joke')const jokeBtn = document.getElementById('jokeBtn')jokeBtn.addEventListener('click', generateJoke)generateJoke()// USING ASYNC/AWAITasync function generateJoke() {  const config = {    headers: {      Accept: 'application/json',    },  }  const res = await fetch('https://icanhazdadjoke.com', config)  const data = await res.json()  jokeEl.innerHTML = data.joke}// USING .then()// function generateJoke() {//   const config = {//     headers: {//       Accept: 'application/json',//     },//   }//   fetch('https://icanhazdadjoke.com', config)//     .then((res) => res.json())//     .then((data) => {//       jokeEl.innerHTML = data.joke//     })// }
-Collapse file‎dad-jokes/style.css‎Copy file name to clipboard
-import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+const boxesContainer = document.getElementById('boxes')
+const btn = document.getElementById('btn')
+
+btn.addEventListener('click', () => boxesContainer.classList.toggle('big'))
+
+function createBoxes() {
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 4; j++) {
+      const box = document.createElement('div')
+      box.classList.add('box')
+      box.style.backgroundPosition = `${-j * 125}px ${-i * 125}px`
+      boxesContainer.appendChild(box)
+    }
+  }
+}
+
+createBoxes()
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: #686de0;
+  background-color: #fafafa;
   font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
@@ -32,49 +51,80 @@ body {
   justify-content: center;
   height: 100vh;
   overflow: hidden;
-  margin: 0;
-  padding: 20px;
 }
 
-.container {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
-  padding: 50px 20px;
-  text-align: center;
-  max-width: 100%;
-  width: 800px;
-}
-
-h3 {
-  margin: 0;
-  opacity: 0.5;
-  letter-spacing: 2px;
-}
-
-.joke {
-  font-size: 30px;
-  letter-spacing: 1px;
-  line-height: 40px;
-  margin: 50px auto;
-  max-width: 600px;
-}
-
-.btn {
-  background-color: #9f68e0;
+.magic {
+  background-color: #f9ca24;
   color: #fff;
+  font-family: 'Poppins', sans-serif;
   border: 0;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
-  padding: 14px 40px;
+  border-radius: 3px;
   font-size: 16px;
+  padding: 12px 20px;
   cursor: pointer;
+  position: fixed;
+  top: 20px;
+  letter-spacing: 1px;
+  box-shadow: 0 3px rgba(249, 202, 36, 0.5);
+  z-index: 100;
 }
 
-.btn:active {
-  transform: scale(0.98);
+.magic:focus {
+  outline: none;
 }
 
-.btn:focus {
-  outline: 0;
+.magic:active {
+  box-shadow: none;
+  transform: translateY(2px);
+}
+
+.boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: 500px;
+  width: 500px;
+  position: relative;
+  transition: 0.4s ease;
+}
+
+.boxes.big {
+  width: 600px;
+  height: 600px;
+}
+
+.boxes.big .box {
+  transform: rotateZ(360deg);
+}
+
+.box {
+  background-image: url('https://media.giphy.com/media/EZqwsBSPlvSda/giphy.gif');
+  background-repeat: no-repeat;
+  background-size: 500px 500px;
+  position: relative;
+  height: 125px;
+  width: 125px;
+  transition: 0.4s ease;
+}
+
+.box::after {
+  content: '';
+  background-color: #f6e58d;
+  position: absolute;
+  top: 8px;
+  right: -15px;
+  height: 100%;
+  width: 15px;
+  transform: skewY(45deg);
+}
+
+.box::before {
+  content: '';
+  background-color: #f9ca24;
+  position: absolute;
+  bottom: -15px;
+  left: 8px;
+  height: 15px;
+  width: 100%;
+  transform: skewX(45deg);
 }
